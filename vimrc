@@ -26,7 +26,9 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
+Plugin 'scrooloose/syntastic'
 Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
 
 " Custom plugins go here
 Plugin 'scrooloose/nerdtree'
@@ -53,8 +55,13 @@ endif
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
+set ignorecase
 set incsearch		" do incremental searching
 set number
+set smartcase
+set history=1000
+set noswapfile
+set nobackup
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -119,3 +126,18 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
