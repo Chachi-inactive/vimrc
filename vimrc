@@ -25,10 +25,16 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
+nmap <Leader>op :PluginInstall<CR>
+
 " let Vundle manage Vundle, required
 Plugin 'scrooloose/syntastic'
 Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
+Plugin 'pangloss/vim-javascript'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'tpope/vim-commentary'
+Plugin 'kien/ctrlp.vim'
 
 " Custom plugins go here
 Plugin 'scrooloose/nerdtree'
@@ -52,16 +58,31 @@ if has("vms")
 else
   set backup		" keep a backup file
 endif
-set history=50		" keep 50 lines of command line history
+set history=200		" keep 200 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set ignorecase
 set incsearch		" do incremental searching
 set number
 set smartcase
-set history=1000
 set noswapfile
 set nobackup
+set smartindent
+set autoindent
+set nrformats=
+
+" History scrollers (Practical Vim)
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+" Omni
+set omnifunc=syntaxcomplete#Complete
+
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -76,13 +97,6 @@ inoremap <C-U> <C-G>u<C-U>
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=a
-endif
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
 endif
 
 " Only do this part when compiled with support for autocommands.
@@ -140,4 +154,22 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+endif
+
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+" Filetype-specific stuff
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+autocmd FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType jade setlocal tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2
+
+highlight clear SignColumn
