@@ -35,6 +35,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-commentary'
 Plugin 'kien/ctrlp.vim'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'valloric/MatchTagAlways'
 
 " Custom plugins go here
 Plugin 'scrooloose/nerdtree'
@@ -83,6 +85,11 @@ autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+
+" Beautifiers
+autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -173,3 +180,11 @@ autocmd FileType jade setlocal tabstop=2 softtabstop=2 shiftwidth=2
 autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 highlight clear SignColumn
+
+"System clipboard
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
