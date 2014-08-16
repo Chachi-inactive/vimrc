@@ -37,6 +37,9 @@ Plugin 'tpope/vim-commentary'
 Plugin 'kien/ctrlp.vim'
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'valloric/MatchTagAlways'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'mustache/vim-mustache-handlebars'
 
 " Custom plugins go here
 Plugin 'scrooloose/nerdtree'
@@ -45,9 +48,6 @@ let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=0
 let NERDTreeIgnore=['\.pyc$', '\~$']
 
-" SuperTab
-Plugin 'ervandew/supertab'
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -55,11 +55,6 @@ filetype plugin indent on    " required
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
-else
-  set backup		" keep a backup file
-endif
 set history=200		" keep 200 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
@@ -70,7 +65,6 @@ set smartcase
 set noswapfile
 set nobackup
 set smartindent
-set autoindent
 set nrformats=
 
 " History scrollers (Practical Vim)
@@ -100,6 +94,9 @@ map Q gq
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
+
+" <Ctrl-l> redraws the screen and removes any search highlighting.
+nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -178,6 +175,7 @@ set expandtab
 autocmd FileType javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2
 autocmd FileType jade setlocal tabstop=2 softtabstop=2 shiftwidth=2
 autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2
+autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 highlight clear SignColumn
 
@@ -188,3 +186,6 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
